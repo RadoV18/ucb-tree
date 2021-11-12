@@ -1,21 +1,21 @@
 package bo.edu.ucb.est;
 
 public class Tree<D extends Comparable<D>> {
-    private Node root;
+    private Node<D> root;
 
     public Tree() {
     }
 
-    public Node getRoot() {
+    public Node<D> getRoot() {
         return root;
     }
 
-    public void setRoot(Node root) {
+    public void setRoot(Node<D> root) {
         this.root = root;
     }
 
     public void add(D data) {
-        Node newNode = new Node(data);
+        Node<D> newNode = new Node<>(data);
         if ( root == null) { // arbol vacio
             root = newNode;
         } else {
@@ -49,8 +49,11 @@ public class Tree<D extends Comparable<D>> {
 //        Paso 1 − Recorre recursivamente el subarbol izquierdo.
 //                Paso 2 − Visitamos el nodo raíz.
 //        Paso 3 − Recorre recursivamente el subarbol derecho.
-        System.out.println(root.getData());
+        if(root == null) {
+            return;
+        }
         printInOrder(root.getLeft());
-
+        System.out.println(root.getData());
+        printInOrder(root.getRight());
     }
 }
