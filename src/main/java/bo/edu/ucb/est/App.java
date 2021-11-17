@@ -11,18 +11,8 @@ public class App
     public static void main( String[] args )  {
         Tree<Integer> tree = new Tree<Integer>();
         tree.add(12);
-        tree.add(5);
+        tree.add(15);
         tree.add(14);
-        tree.add(3);
-        tree.add(7);
-        tree.add(13);
-        tree.add(17);
-        tree.add(16);
-        tree.add(1);
-        tree.add(9);
-        tree.add(20);
-        tree.add(8);
-        tree.add(11);
         tree.add(18);
         Tree.printInOrder(tree.getRoot());
         System.out.println("FIN");
@@ -43,11 +33,9 @@ public class App
         System.out.println("Print in order non recursive");
         Tree.printInOrderNonRecursive(tree.getRoot());
 
-        /*System.out.println("Remove");
-        tree.remove(tree.getRoot(), 14);
-        Tree.printInOrder(tree.getRoot());*/
-        System.out.println("Remove 12");
-        tree.remove(tree.getRoot(), 12);
+        System.out.println("Remove");
+        tree.remove(tree.getRoot(), 15);
+        System.out.println("Print");
         Tree.printInOrder(tree.getRoot());
 
     }

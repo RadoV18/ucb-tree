@@ -114,33 +114,40 @@ public class Tree<D extends Comparable<D>> {
         boolean encontrado = false;
         boolean nodoIzq = false;
         boolean root = false;
-        if(current.equals(this.root) && current.getData().equals(data)) {
+        if(current.equals(this.root) && current.getData().equals(data)) { // eliminar el nodo root
             encontrado = true;
             root = true;
-        } else if(current.getLeft() != null && current.getLeft().getData().equals(newNode.getData())) {
+        } else if(current.getLeft() != null && current.getLeft().getData().equals(newNode.getData())) { // eliminar nodo a la izquierda del actual
             encontrado = true;
             nodoIzq = true;
-        } else if(current.getRight() != null && current.getRight().getData().equals(newNode.getData())) {
+        } else if(current.getRight() != null && current.getRight().getData().equals(newNode.getData())) { // eliminar nodo a la derecha del actual
             encontrado = true;
             nodoIzq = false;
         }
-        if(encontrado) {
+        if(encontrado) { // nodo a eliminar encontrado
+            // asignar nodo a eliminar
             Node<D> removeNode = root ? this.root : nodoIzq ? current.getLeft() : current.getRight();
             if(removeNode.getLeft() == null && removeNode.getRight() == null) { // nodo hoja
-                if(nodoIzq) {
+                if(root) { // la raiz es nodo hoja
+                    this.root = null;
+                } else if(nodoIzq) {
                     current.setLeft(null); // eliminar nodo
                 } else {
                     current.setRight(null);
                 }
             } else {
                 if(removeNode.getLeft() == null) { // nodo hijo a la derecha
-                    if(nodoIzq) {
+                    if(root) {
+                        this.root = removeNode.getRight();
+                    } else if(nodoIzq) {
                         current.setLeft(removeNode.getRight()); // saltar el nodo a eliminar
                     } else {
                         current.setRight(removeNode.getRight()); // saltar el nodo a eliminar
                     }
                 } else if(removeNode.getRight() == null) { // nodo hijo a la izquierda
-                    if(nodoIzq) {
+                    if(root) { 
+                        this.root = removeNode.getLeft();
+                    } else if(nodoIzq) {
                         current.setLeft(removeNode.getLeft()); // saltar el nodo a eliminar
                     } else {
                         current.setRight(removeNode.getLeft()); // saltar el nodo a eliminar
@@ -151,7 +158,7 @@ public class Tree<D extends Comparable<D>> {
                     remove(this.root, minNode.getData()); // eliminar el nodo hoja
                     removeNode.setData(minNode.getData()); // cambiar el valor del nodo a eliminar
                     if(root) {
-                        this.root = removeNode;
+                        this.root = removeNode; // reasignar nodo root
                     }
                 }
             }
