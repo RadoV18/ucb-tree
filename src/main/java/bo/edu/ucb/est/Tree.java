@@ -110,64 +110,66 @@ public class Tree<D extends Comparable<D>> {
     }
 
     public void remove(Node<D> current, D data) {
-        Node<D> newNode = new Node<D>(data);
-        boolean encontrado = false;
-        boolean nodoIzq = false;
-        boolean root = false;
-        if(current.equals(this.root) && current.getData().equals(data)) { // eliminar el nodo root
-            encontrado = true;
-            root = true;
-        } else if(current.getLeft() != null && current.getLeft().getData().equals(newNode.getData())) { // eliminar nodo a la izquierda del actual
-            encontrado = true;
-            nodoIzq = true;
-        } else if(current.getRight() != null && current.getRight().getData().equals(newNode.getData())) { // eliminar nodo a la derecha del actual
-            encontrado = true;
-            nodoIzq = false;
-        }
-        if(encontrado) { // nodo a eliminar encontrado
-            // asignar nodo a eliminar
-            Node<D> removeNode = root ? this.root : nodoIzq ? current.getLeft() : current.getRight();
-            if(removeNode.getLeft() == null && removeNode.getRight() == null) { // nodo hoja
-                if(root) { // la raiz es nodo hoja
-                    this.root = null;
-                } else if(nodoIzq) {
-                    current.setLeft(null); // eliminar nodo
+        if(this.root != null) {
+            Node<D> newNode = new Node<D>(data);
+            boolean encontrado = false;
+            boolean nodoIzq = false;
+            boolean root = false;
+            if(current.equals(this.root) && current.getData().equals(data)) { // eliminar el nodo root
+                encontrado = true;
+                root = true;
+            } else if(current.getLeft() != null && current.getLeft().getData().equals(newNode.getData())) { // eliminar nodo a la izquierda del actual
+                encontrado = true;
+                nodoIzq = true;
+            } else if(current.getRight() != null && current.getRight().getData().equals(newNode.getData())) { // eliminar nodo a la derecha del actual
+                encontrado = true;
+                nodoIzq = false;
+            }
+            if(encontrado) { // nodo a eliminar encontrado
+                // asignar nodo a eliminar
+                Node<D> removeNode = root ? this.root : nodoIzq ? current.getLeft() : current.getRight();
+                if(removeNode.getLeft() == null && removeNode.getRight() == null) { // nodo hoja
+                    if(root) { // la raiz es nodo hoja
+                        this.root = null;
+                    } else if(nodoIzq) {
+                        current.setLeft(null); // eliminar nodo
+                    } else {
+                        current.setRight(null);
+                    }
                 } else {
-                    current.setRight(null);
+                    if(removeNode.getLeft() == null) { // nodo hijo a la derecha
+                        if(root) {
+                            this.root = removeNode.getRight();
+                        } else if(nodoIzq) {
+                            current.setLeft(removeNode.getRight()); // saltar el nodo a eliminar
+                        } else {
+                            current.setRight(removeNode.getRight()); // saltar el nodo a eliminar
+                        }
+                    } else if(removeNode.getRight() == null) { // nodo hijo a la izquierda
+                        if(root) { 
+                            this.root = removeNode.getLeft();
+                        } else if(nodoIzq) {
+                            current.setLeft(removeNode.getLeft()); // saltar el nodo a eliminar
+                        } else {
+                            current.setRight(removeNode.getLeft()); // saltar el nodo a eliminar
+                        }
+                    } else {
+                        Node<D> minNode = findMinNode(removeNode.getRight()); // nodo minimo del subarbol derecho
+                        System.out.println(minNode.getData());
+                        remove(this.root, minNode.getData()); // eliminar el nodo hoja
+                        removeNode.setData(minNode.getData()); // cambiar el valor del nodo a eliminar
+                        if(root) {
+                            this.root = removeNode; // reasignar nodo root
+                        }
+                    }
                 }
             } else {
-                if(removeNode.getLeft() == null) { // nodo hijo a la derecha
-                    if(root) {
-                        this.root = removeNode.getRight();
-                    } else if(nodoIzq) {
-                        current.setLeft(removeNode.getRight()); // saltar el nodo a eliminar
-                    } else {
-                        current.setRight(removeNode.getRight()); // saltar el nodo a eliminar
-                    }
-                } else if(removeNode.getRight() == null) { // nodo hijo a la izquierda
-                    if(root) { 
-                        this.root = removeNode.getLeft();
-                    } else if(nodoIzq) {
-                        current.setLeft(removeNode.getLeft()); // saltar el nodo a eliminar
-                    } else {
-                        current.setRight(removeNode.getLeft()); // saltar el nodo a eliminar
-                    }
-                } else {
-                    Node<D> minNode = findMinNode(removeNode.getRight()); // nodo minimo del subarbol derecho
-                    System.out.println(minNode.getData());
-                    remove(this.root, minNode.getData()); // eliminar el nodo hoja
-                    removeNode.setData(minNode.getData()); // cambiar el valor del nodo a eliminar
-                    if(root) {
-                        this.root = removeNode; // reasignar nodo root
-                    }
+                // recorrer el arbol hasta encontrar el nodo a eliminar
+                if(data.compareTo(current.getData()) > 0) { // ir por la derecha
+                    remove(current.getRight(), data);
+                } else if(data.compareTo(current.getData()) < 0) { // ir por la izquierda
+                    remove(current.getLeft(), data);
                 }
-            }
-        } else {
-            // recorrer el arbol hasta encontrar el nodo a eliminar
-            if(data.compareTo(current.getData()) > 0) { // ir por la derecha
-                remove(current.getRight(), data);
-            } else if(data.compareTo(current.getData()) < 0) { // ir por la izquierda
-                remove(current.getLeft(), data);
             }
         }
     }
