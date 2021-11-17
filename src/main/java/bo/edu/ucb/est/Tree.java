@@ -110,7 +110,7 @@ public class Tree<D extends Comparable<D>> {
     }
 
     public void remove(Node<D> current, D data) {
-        Node<D> newNode = new Node(data);
+        Node<D> newNode = new Node<D>(data);
         boolean encontrado = false;
         boolean nodoIzq = false;
         boolean root = false;
