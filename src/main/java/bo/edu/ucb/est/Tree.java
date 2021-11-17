@@ -113,45 +113,20 @@ public class Tree<D extends Comparable<D>> {
         Node<D> newNode = new Node(data);
         boolean encontrado = false;
         boolean nodoIzq = false;
-        if(current.getLeft() != null && current.getLeft().getData().equals(newNode.getData())) {
+        boolean root = false;
+        if(current.equals(this.root) && current.getData().equals(data)) {
+            System.out.println("ROOT");
+            encontrado = true;
+            root = true;
+        } else if(current.getLeft() != null && current.getLeft().getData().equals(newNode.getData())) {
             encontrado = true;
             nodoIzq = true;
-            /*// verificar 3 posibles casos
-            Node<D> removeNode = current.getLeft();
-            if(removeNode.getLeft() == null && removeNode.getRight() == null) { // nodo leaf
-                current.setLeft(null); // eliminar el nodo
-            } else {
-                if(removeNode.getLeft() == null) { // nodo hijo a la derecha
-                    current.setLeft(removeNode.getRight()); // saltar el nodo a eliminar
-                } else if(removeNode.getRight() == null) { // nodo hijo a la izquierda
-                    current.setLeft(removeNode.getLeft());
-                } else { // 2 nodos hijos
-                    Node<D> minNode = findMinNode(removeNode.getRight()); // encontrar el nodo minimo del subarbol derecho
-                    remove(root, minNode.getData()); // eliminar el nodo hoja
-                    removeNode.setData(minNode.getData()); // cambiar el valor del nodo a eliminar
-                }
-            }*/
         } else if(current.getRight() != null && current.getRight().getData().equals(newNode.getData())) {
             encontrado = true;
             nodoIzq = false;
-            /*// verificar 3 posibles casos
-            Node<D> removeNode = current.getRight();
-            if(removeNode.getLeft() == null && removeNode.getRight() == null) { // nodo leaf
-                current.setRight(null); // eliminar el nodo
-            } else {
-                if(removeNode.getLeft() == null) { // nodo hijo a la derecha
-                    current.setRight(removeNode.getRight()); // saltar el nodo a eliminar
-                } else if(removeNode.getRight() == null) { // nodo hijo a la izquierda
-                    current.setRight(removeNode.getLeft());
-                } else { // 2 nodos hijos
-                    Node<D> minNode = findMinNode(removeNode.getRight()); // nodo minimo del subarbol derecho
-                    remove(root, minNode.getData()); // eliminar el nodo hoja
-                    removeNode.setData(minNode.getData()); // cambiar el valor del nodo a eliminar
-                }
-            }*/
         }
         if(encontrado) {
-            Node<D> removeNode = nodoIzq ? current.getLeft() : current.getRight();
+            Node<D> removeNode = root ? this.root : nodoIzq ? current.getLeft() : current.getRight();
             if(removeNode.getLeft() == null && removeNode.getRight() == null) { // nodo hoja
                 if(nodoIzq) {
                     current.setLeft(null); // eliminar nodo
@@ -173,8 +148,13 @@ public class Tree<D extends Comparable<D>> {
                     }
                 } else {
                     Node<D> minNode = findMinNode(removeNode.getRight()); // nodo minimo del subarbol derecho
-                    remove(root, minNode.getData()); // eliminar el nodo hoja
+                    System.out.println(minNode.getData());
+                    remove(this.root, minNode.getData()); // eliminar el nodo hoja
                     removeNode.setData(minNode.getData()); // cambiar el valor del nodo a eliminar
+                    if(root) {
+                        System.out.println(removeNode.getData() + " is the new root node");
+                        this.root = removeNode;
+                    }
                 }
             }
         } else {

@@ -43,8 +43,11 @@ public class App
         System.out.println("Print in order non recursive");
         Tree.printInOrderNonRecursive(tree.getRoot());
 
-        System.out.println("Remove");
+        /*System.out.println("Remove");
         tree.remove(tree.getRoot(), 14);
+        Tree.printInOrder(tree.getRoot());*/
+        System.out.println("Remove 12");
+        tree.remove(tree.getRoot(), 12);
         Tree.printInOrder(tree.getRoot());
 
     }
