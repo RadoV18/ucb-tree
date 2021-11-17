@@ -110,6 +110,9 @@ public class Tree<D extends Comparable<D>> {
     }
 
     public void remove(Node<D> current, D data) {
+        if(current == null) {
+            return; // se termino de recorrer el arbol sin encontrar el nodo
+        }
         if(this.root != null) {
             Node<D> newNode = new Node<D>(data);
             boolean encontrado = false;
@@ -155,8 +158,7 @@ public class Tree<D extends Comparable<D>> {
                         }
                     } else {
                         Node<D> minNode = findMinNode(removeNode.getRight()); // nodo minimo del subarbol derecho
-                        System.out.println(minNode.getData());
-                        remove(this.root, minNode.getData()); // eliminar el nodo hoja
+                        remove(this.root, minNode.getData()); // eliminar el nodo hoja del valor de minNode
                         removeNode.setData(minNode.getData()); // cambiar el valor del nodo a eliminar
                         if(root) {
                             this.root = removeNode; // reasignar nodo root

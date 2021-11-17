@@ -34,7 +34,7 @@ public class App
         Tree.printInOrderNonRecursive(tree.getRoot());
 
         System.out.println("Remove");
-        tree.remove(tree.getRoot(), 15);
+        tree.remove(tree.getRoot(), 1000);
         System.out.println("Print");
         Tree.printInOrder(tree.getRoot());
 
