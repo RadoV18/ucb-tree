@@ -115,7 +115,6 @@ public class Tree<D extends Comparable<D>> {
         boolean nodoIzq = false;
         boolean root = false;
         if(current.equals(this.root) && current.getData().equals(data)) {
-            System.out.println("ROOT");
             encontrado = true;
             root = true;
         } else if(current.getLeft() != null && current.getLeft().getData().equals(newNode.getData())) {
@@ -152,7 +151,6 @@ public class Tree<D extends Comparable<D>> {
                     remove(this.root, minNode.getData()); // eliminar el nodo hoja
                     removeNode.setData(minNode.getData()); // cambiar el valor del nodo a eliminar
                     if(root) {
-                        System.out.println(removeNode.getData() + " is the new root node");
                         this.root = removeNode;
                     }
                 }
